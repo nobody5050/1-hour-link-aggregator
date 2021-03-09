@@ -18,10 +18,15 @@
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-var firestore = firebase.firestore();
+var db = firebase.firestore();
 
-const docRef = firestore.Doc("/users");
-document.Write(docRef);
+db.collection("users").get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+        document.Write(`${doc.id} => ${doc.data()}`);
+    });
+});
+test.firestore.js
+
   </script>
   <center>
     <h1>hello</h1>
