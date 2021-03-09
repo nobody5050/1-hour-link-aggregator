@@ -30,7 +30,7 @@ function logIn() {
     var password = document.getElementById("passwordsignin").value;
 
     //authenticate 
-    firebase.auth().signInWithEmailAndPassword("testas@gmail.com", "test123").then(user => {
+    firebase.auth().signInWithEmailAndPassword(email, password).then(user => {
         // assign username and populate
         getname();
         getposts();
@@ -101,8 +101,9 @@ function getposts() {
   <center>
     <h1>hello</h1>
     <div id="loginform">
-      <input type="email" id="emailsignin">
-      <input type="password" id="passwordsignin">
+      <input type="email" id="emailsignin" hint="email">
+      <input type="password" id="passwordsignin" hint="password">
+      <button onclick="logIn()">login</button>
     <div>
     <div id="containerofallposts"></div>
   </center>
