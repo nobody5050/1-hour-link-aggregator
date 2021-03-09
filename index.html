@@ -22,11 +22,9 @@ var db = firebase.firestore();
 
 db.collection("users").get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
-        document.Write(`${doc.id} => ${doc.data()}`);
+        Document.write(`${doc.id} => ${doc.data()}`);
     });
 });
-test.firestore.js
-
   </script>
   <center>
     <h1>hello</h1>
