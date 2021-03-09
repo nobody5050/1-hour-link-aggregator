@@ -20,6 +20,7 @@
 firebase.initializeApp(firebaseConfig);
 var db = firebase.firestore();
 
+var defaultpicture = "https://image.flaticon.com/icons/svg/149/149071.svg";
 function getposts() {
     const db = firebase.firestore();
     db.collection("posts").where("audience", "==", "public").get().then(allposts => {
