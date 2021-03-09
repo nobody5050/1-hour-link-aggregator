@@ -2,10 +2,27 @@
 <head>
   <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-firestore.js"></script>
-  <script src="/1-hour-link-aggregator/app.js"></script>
   <title>bop</title>
 </head>
 <body>
+<script>
+  var firebaseConfig = {
+    apiKey: "AIzaSyACGMUH95QAxKGK-G7GKOCpr3N8OBUo6WM",
+    authDomain: "testliftion.firebaseapp.com",
+    databaseURL: "https://testliftion.firebaseio.com",
+    projectId: "testliftion",
+    storageBucket: "testliftion.appspot.com",
+    messagingSenderId: "584922554416",
+    appId: "1:584922554416:web:a5ba70b065c69166"
+  };
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+var firestore = firebase.firestore();
+
+const docRef = firestore.Doc("/users");
+document.Write(docRef);
+  </script>
   <center>
     <h1>hello</h1>
   </center>
