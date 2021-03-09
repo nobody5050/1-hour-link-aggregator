@@ -4,7 +4,7 @@
   <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-firestore.js"></script>
   <title>bop</title>
 </head>
-<body>
+<body onload="getposts()">
 <script>
   var firebaseConfig = {
     apiKey: "AIzaSyACGMUH95QAxKGK-G7GKOCpr3N8OBUo6WM",
@@ -20,14 +20,55 @@
 firebase.initializeApp(firebaseConfig);
 var db = firebase.firestore();
 
-db.collection("users").get().then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-        Console.log(`${doc.id} => ${doc.data()}`);
-    });
-});
+function getposts() {
+    const db = firebase.firestore();
+    db.collection("posts").where("audience", "==", "public").get().then(allposts => {
+        allposts.forEach(post => {
+            data = post.data(); 
+            console.log(post.id);
+            //put in the author info
+            var imagelink = localStorage.getItem(data.author) || defaultpicture;
+            if (typeof imagelink == "null" || imagelink == "null" || typeof imagelink == 'null' || typeof imagelink == 'undefined' || imagelink == "undefined") {
+                imagelink = defaultpicture;
+            }            
+            // =============================================
+            // put in the tag info
+            var tag = data.tag;
+            if (typeof tag == "null" || tag == "null" || typeof tag == 'null' || typeof tag == 'undefined' || tag == "undefined") {
+                tag = "";
+            }      
+            else {
+                tag = ' #'+tag;
+            }
+            //=====================
+
+            //make delete button on owned posts TESTING FEATURE!
+            if (data.author_uid == firebase.auth().currentUser.uid) {
+                var deletebutton = '<button class="deletepost" onclick="deletePost(\''+post.id+'\')">delete post</button>';
+            }
+            else {
+                var deletebutton = "";
+            }
+            //============================
+
+
+            //ddifferent post structere if  post contains images, add them 
+            if(typeof data.image != 'undefined') {
+                if(data.image != null) {
+                    document.getElementById("containerofallposts").innerHTML += '<div class="post" id="'+post.id+'">'+'<div class="authorofpost">'+'<p>'+data.author+'</p>' +'<img src="'+imagelink+'">'+deletebutton+'</div>'+'<a class="tag">'+tag+'<br>'+'</a>'+'<img src="'+data.image+'">'+'<p>'+data.text+'</p>'+'</div>';
+                }
+                document.getElementById("containerofallposts").innerHTML += '<div class="post" id="'+post.id+'">'+'<div class="authorofpost">'+'<p>'+data.author+'</p>' +'<img src="'+imagelink+'">'+deletebutton+'</div>'+'<a class="tag">'+tag+'</a>'+'<br>'+'<p>'+data.text+'</p>'+'</div>';
+            }
+            document.getElementById("containerofallposts").innerHTML += '<div class="post" id="'+post.id+'">'+'<div class="authorofpost">'+'<p>'+data.author+'</p>' +'<img src="'+imagelink+'">'+deletebutton+'</div>'+'<a class="tag">'+tag+'</a>'+'<br>'+'<p>'+data.text+'</p>'+'</div>';
+            //============================
+        });
+    })
+}
+  
   </script>
   <center>
     <h1>hello</h1>
+    <div id="containerofallposts"></div>
   </center>
 </body>
 </html>
