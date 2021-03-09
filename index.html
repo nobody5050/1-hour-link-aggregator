@@ -22,6 +22,36 @@ firebase.initializeApp(firebaseConfig);
 var db = firebase.firestore();
 
 var defaultpicture = "https://image.flaticon.com/icons/svg/149/149071.svg";
+  
+function logIn() {
+    const db = firebase.firestore();
+    //TODO make authentication use data from this form
+    var email = document.getElementById("emailsignin").value;
+    var password = document.getElementById("passwordsignin").value;
+
+    //authenticate 
+    firebase.auth().signInWithEmailAndPassword("testas@gmail.com", "test123").then(user => {
+        // assign username and populate
+        getname();
+        getposts();
+        document.getElementById("loginform").innerHTML = null;
+        document.getElementById("loginform").hidden = true;
+        //================
+
+    }).catch(function(error) {
+        // TODO customize the errors
+        document.getElementById("errorwhenlogginin").innerHTML = error;
+    });
+    //========================
+    //cache images
+        db.collection("users").get().then(event => {
+            event.forEach(data => {
+                localStorage.setItem(data.data().name, data.data().image); 
+            })
+        });
+    //=============
+}
+
 function getposts() {
     const db = firebase.firestore();
     db.collection("posts").where("audience", "==", "public").get().then(allposts => {
